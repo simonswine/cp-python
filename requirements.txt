@@ -1,0 +1,6 @@
+mprofile==0.0.14
+protobuf==4.21.8
+pypprof==0.0.1
+#pypprof==0.1.0
+six==1.16.0
+zprofile==1.0.12
