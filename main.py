@@ -9,11 +9,15 @@ def prime_number_from_1_to(to=100):
     for i in range(1, to):
         if i > 1:
             for j in range(2, i):
-                if (i % j) == 0:
+                if divisible(i, j):
                     break
             else:
                 prime_numbers.append(i)
     return prime_numbers
+
+def divisible(i, j):
+    return i % j == 0
+
 
 def main():
     # start memory profiling
@@ -22,7 +26,7 @@ def main():
     # enable pprof http server
     start_pprof_server(host='0.0.0.0', port=8081)
 
-    to = 20000
+    to = 500
     while True:
         result = prime_number_from_1_to(to)
         print("there are %d prime numbers from 1 to %d" % (len(result), to))
