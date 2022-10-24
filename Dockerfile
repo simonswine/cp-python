@@ -1,24 +1,22 @@
-FROM python:3.10-alpine as builder
+FROM python:3.10 as builder
 
 # Install build-base to allow for compilation of the profiling agent.
-RUN apk add --update --no-cache build-base git
+RUN apt-get update && apt-get install -y build-essential git
 
 # Compile the profiling agent, generating wheels for it.
 COPY ./requirements.txt .
 RUN pip3 wheel --wheel-dir=/tmp/wheels -r requirements.txt
 
-FROM python:3.10-alpine
+FROM python:3.10
 
 # Copy over the directory containing wheels for the profiling agent.
 COPY --from=builder /tmp/wheels /tmp/wheels
 
-RUN apk add --update --no-cache libgcc git
+RUN apt-get update && apt-get install -y git
 
 # Install the profiling agent.
 COPY ./requirements.txt .
 RUN pip3 install --no-index --find-links=/tmp/wheels -r requirements.txt
-
-RUN pip3 freeze
 
 COPY ./main.py .
 
